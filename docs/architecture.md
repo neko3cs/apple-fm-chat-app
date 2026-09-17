@@ -68,12 +68,12 @@ graph LR
 ```
 
 - 依存は View → 状態管理層 → （モデル連携層・永続化層） → フレームワーク の一方向のみ。逆方向の依存（フレームワークや ChatService / ConversationStore が View / ViewModel を知る）は作らない。
-- モデル連携層（ChatService）と永続化層（ConversationStore）は互いに依存しない。両者の橋渡しは状態管理層（ChatViewModel）が行う。
-- View は `LanguageModelSession` / `Transcript` / SwiftData の `ModelContext` などフレームワークの型を直接扱わない。フレームワークの型に触れるのは ChatService（Foundation Models）と ConversationStore（SwiftData）のみとする。
+- モデル連携層（ChatService）と永続化層（ConversationStore）は互いに依存しない。両者の橋渡しは状態管理層（ChatViewModel）が行うが、ChatViewModel は `Data` のみを受け渡し、`Transcript` の中身には関与しない（次項）。
+- `Transcript` 型（Foundation Models）に触れるのは ChatService のみとする。ConversationStore は `Transcript` を知らず、SwiftData に保存する対象を「エンコード済みの `Data`」としてのみ扱う。View・ViewModel はどちらの型も扱わない。
 
 ## 不変条件・境界
 
-- View 層は Foundation Models フレームワークの型（`LanguageModelSession` / `SystemLanguageModel` / `Transcript` など）および SwiftData の型（`ModelContext` 等）を直接 import・参照しない。
+- View 層・ViewModel 層は Foundation Models フレームワークの型（`LanguageModelSession` / `SystemLanguageModel` / `Transcript` など）および SwiftData の型（`ModelContext` 等）を直接 import・参照しない。ViewModel が ChatService と ConversationStore の間で受け渡すのは `Data`（エンコード済みバイト列）のみ。
 - アプリはネットワーク通信を行わない（Private Cloud Compute・外部 API への送信は存在しない）。SwiftData の永続化もローカルディスクのみで、iCloud 等への同期は行わない。
 - 永続化される会話は常に 0 件または 1 件で、複数会話を一覧管理する状態は作らない。
 - コンテキストサイズ超過（`LanguageModelError.contextSizeExceeded`）によってアプリがクラッシュ状態・操作不能状態で停止することはない。必ず新しいセッションを生成して操作可能な状態に戻す。
