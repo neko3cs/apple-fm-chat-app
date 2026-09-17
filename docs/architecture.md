@@ -76,7 +76,8 @@ graph LR
 - View 層・ViewModel 層は Foundation Models フレームワークの型（`LanguageModelSession` / `SystemLanguageModel` / `Transcript` など）および SwiftData の型（`ModelContext` 等）を直接 import・参照しない。ViewModel が ChatService と ConversationStore の間で受け渡すのは `Data`（エンコード済みバイト列）のみ。
 - アプリはネットワーク通信を行わない（Private Cloud Compute・外部 API への送信は存在しない）。SwiftData の永続化もローカルディスクのみで、iCloud 等への同期は行わない。
 - 永続化される会話は常に 0 件または 1 件で、複数会話を一覧管理する状態は作らない。
-- コンテキストサイズ超過（`LanguageModelError.contextSizeExceeded`）によってアプリがクラッシュ状態・操作不能状態で停止することはない。必ず新しいセッションを生成して操作可能な状態に戻す。
+- コンテキストサイズ超過（`LanguageModelError.contextSizeExceeded`）によってアプリがクラッシュ状態・操作不能状態で停止することはない。ただし自動では継続しない。利用者に新しい会話の開始を促す UI を表示し、利用者が「新しい会話」を操作したときにのみ新しいセッションへ切り替える。
+- 応答生成中（ストリーミング中）に「新しい会話」が操作された場合、進行中のストリーミング `Task` を必ずキャンセルしてから新しいセッションを生成する。キャンセル前の部分テキストが新しいセッションの表示に混入することはない。
 - コンテキストサイズの上限値をコード中に数値としてハードコードしない。常に `SystemLanguageModel` が提供する値（`contextSize` 等）を参照する。
 - 保存済みデータのデコード・セッション復元に失敗しても、アプリの起動自体が失敗することはない。失敗時は保存データを破棄し、空の会話から起動を続ける。
 

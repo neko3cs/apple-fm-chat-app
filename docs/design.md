@@ -14,11 +14,13 @@ classDiagram
         +inputText: String
         +availabilityState: ModelAvailabilityState
         +isResponding: Bool
+        +needsNewConversation: Bool
         +send()
         +startNewConversation()
     }
     class ChatService {
         -session: LanguageModelSession
+        -streamingTask: Task~Void, Never~?
         +checkAvailability() ModelAvailabilityState
         +streamResponse(to: String) AsyncSequence
         +resetSession(seedTranscriptData: Data?)
@@ -58,8 +60,8 @@ classDiagram
 ```
 
 - `ChatView`: SwiftUI の View。メッセージ一覧・入力欄・送信ボタン・新しい会話ボタン・利用不可バナーの表示のみを担当する。Foundation Models・SwiftData いずれの型も直接扱わない。
-- `ChatViewModel`: 画面の状態（メッセージ配列、入力文字列、応答中フラグ、利用可否）を保持し、`ChatView` から呼ばれる操作を `ChatService`（モデル呼び出し）と `ConversationStore`（永続化）に委譲する。両者を橋渡しする役割を持つ。
-- `ChatService`: `LanguageModelSession` / `SystemLanguageModel` / `Transcript` をラップし、フレームワーク固有の型・エラーをこの層に閉じ込める。`Transcript` のエンコード・デコードも ChatService の責務とし、外部には `Data` としてのみ公開する。`resetSession` は起動時の復元・コンテキスト超過時のいずれからも呼ばれ、引き継ぐデータを省略すると空の会話から始める。
+- `ChatViewModel`: 画面の状態（メッセージ配列、入力文字列、応答中フラグ、利用可否、`needsNewConversation`）を保持し、`ChatView` から呼ばれる操作を `ChatService`（モデル呼び出し）と `ConversationStore`（永続化）に委譲する。両者を橋渡しする役割を持つ。`needsNewConversation` はコンテキスト上限到達時に `true` になり、「新しい会話」が実行されるまで送信操作を塞ぐ。
+- `ChatService`: `LanguageModelSession` / `SystemLanguageModel` / `Transcript` をラップし、フレームワーク固有の型・エラーをこの層に閉じ込める。`Transcript` のエンコード・デコードも ChatService の責務とし、外部には `Data` としてのみ公開する。進行中のストリーミングを `streamingTask` として保持し、`resetSession` は呼ばれるたびに（起動時の復元・「新しい会話」操作のいずれからでも）まず `streamingTask` を `cancel()` してから待ち合わせ、新しい `LanguageModelSession` を生成する。引き継ぐデータを省略すると空の会話から始める。
 - `ConversationStore`: SwiftData（`ModelContext`）をラップし、`PersistedConversation.transcriptData`（`Data`）をそのまま読み書きする。`Transcript` 型は一切知らない（Foundation Models フレームワークに依存しない）。View・ViewModel・ChatService のいずれからも SwiftData の型が見えないようにする。
 - `PersistedConversation`: SwiftData の `@Model`。永続化する行は常に 1 件（`ConversationStore` が upsert する）。
 - `ChatMessage`: 画面表示用のメッセージデータ。SwiftData には保存しない（永続化されるのは `Transcript` のみ）。
@@ -121,12 +123,8 @@ sequenceDiagram
         VM-->>View: isResponding = false
     else コンテキスト上限超過（LanguageModelError.contextSizeExceeded）
         Session-->>Svc: エラー送出
-        Svc->>Svc: 新しい LanguageModelSession を生成（resetSession 相当）
-        Svc-->>VM: セッションを再作成したことを通知
-        VM->>Svc: currentTranscriptData()
-        Svc-->>VM: Data（中身は解釈しない）
-        VM->>Store: save(transcriptData: Data)
-        VM-->>View: 会話は継続可能な状態のまま（クラッシュ・停止なし）
+        Svc-->>VM: コンテキスト上限超過を通知（セッションはまだ切り替えない）
+        VM-->>View: needsNewConversation = true<br/>状態バナーで「新しい会話」を促す。送信は不可のまま
     else その他のエラー
         Session-->>Svc: エラー送出
         Svc-->>VM: エラーを通知
@@ -134,15 +132,34 @@ sequenceDiagram
     end
 ```
 
-- コンテキスト上限超過時に前の文脈をどこまで新セッションへ引き継ぐか（先頭・末尾の `Transcript.Entry` を種にするか、何も引き継がず空の状態から始めるか）は TBD。要件上は「新しいセッションで会話を続けられる」ことが必須で、引き継ぎの精度は問わない。
-- 永続化（`Store.save`）は、応答が確定するたび（正常終了・コンテキスト超過リカバリ後）に行う。ストリーミングの部分テキストごとには保存しない（書き込み頻度を抑えるため）。
+- 永続化（`Store.save`）は、正常終了で応答が確定するたびに行う。ストリーミングの部分テキストごとには保存しない（書き込み頻度を抑えるため）。コンテキスト上限超過時は超過した発言への応答が得られていないため保存しない（超過前の状態のまま残る）。
+- コンテキスト上限超過時に前の文脈を新しい会話へ引き継ぐことはしない（下記「新しい会話」の項を参照）。超過を招いた発言をどう扱うか（消えるだけか、入力欄に戻すか）は TBD。
 - その他のエラー時は `Transcript` が更新されていないため保存しない。
-- 「新しい会話」ボタン押下時は `ChatViewModel.startNewConversation()` が `ChatService.resetSession(seedTranscriptData: nil)` と `ConversationStore.clear()` を呼び、セッション・永続化データの両方を空にする。応答生成中（`Responding`）に押された場合の扱いは未定義（下記「未解決の論点」参照）。
 
-**未解決の論点（実装前に決める必要がある）**
+### 新しい会話（通常時／応答生成中／コンテキスト上限到達時で共通）
 
-1. `Responding` 中に「新しい会話」が押された場合の扱いが未定義。進行中の `streamResponse` の `Task` をキャンセルせずにセッションをリセットすると、古いストリームの部分テキストが新しい会話に紛れ込むおそれがある。少なくとも「新しいセッションへの切り替え前に進行中のストリーミング `Task` を必ずキャンセルする」ことは不変条件として持たせるべきか要検討。
-2. コンテキスト上限超過を引き起こしたユーザーの発言自体が、新しいセッションに引き継がれるのか（再送信扱いにする）、それとも失われるのか（利用者に再入力を促す）が未定義。`respond`/`streamResponse` はプロンプト全体で失敗するため、少なくとも入力欄にその発言を残す（再送信しやすくする）等の配慮が要る可能性がある。
+```mermaid
+sequenceDiagram
+    actor User
+    participant View as ChatView
+    participant VM as ChatViewModel
+    participant Svc as ChatService
+    participant Store as ConversationStore
+
+    User->>View: 「新しい会話」を押す
+    View->>VM: startNewConversation()
+    VM->>Svc: resetSession(seedTranscriptData: nil)
+    opt ストリーミング中だった場合
+        Svc->>Svc: streamingTask を cancel() し、完了を待ち合わせる
+        Note over Svc: ループは Task.isCancelled を検知した時点で<br/>直ちに抜け、以降 VM への部分テキスト通知は行わない
+    end
+    Svc->>Svc: 新しい LanguageModelSession を生成
+    Svc-->>VM: 空のセッションを返す
+    VM->>Store: clear()
+    VM-->>View: messages を空に、isResponding / needsNewConversation を false に
+```
+
+- この操作は `Idle`・`Responding`・コンテキスト上限到達（`needsNewConversation == true`）のいずれの状態からも同じ手順で実行できる。「進行中のストリーミング `Task` を必ずキャンセルしてから新しいセッションを生成する」のは `resetSession` 内部の不変条件とし、呼び出し元が状態を意識する必要はない。
 
 ## 状態遷移
 
@@ -159,11 +176,17 @@ stateDiagram-v2
 
     Idle --> Responding: 送信（入力欄が空でない）
     Responding --> Idle: 応答完了
-    Responding --> Idle: コンテキスト上限超過 → 新セッションへ切替（エラー表示にはしない）
+    Responding --> NeedsNewConversation: コンテキスト上限超過（needsNewConversation = true、送信は不可のまま）
     Responding --> Idle: その他のエラー
 
-    Idle --> Idle: 新しい会話ボタン（セッション・メッセージ一覧をリセット）
+    Idle --> Idle: 新しい会話ボタン（ストリーミングは無いのでキャンセル不要）
+    Responding --> Idle: 新しい会話ボタン（進行中のストリーミング Task をキャンセルしてからリセット）
+    NeedsNewConversation --> Idle: 新しい会話ボタン（この状態からの唯一の脱出経路）
 
+    note right of NeedsNewConversation
+        この状態では送信ボタン・入力欄を無効化し、
+        状態バナーで「新しい会話」を促す
+    end note
     note right of Unavailable
         この状態では送信ボタン・入力欄を無効化する
         （Unavailable のまま送信できる遷移は作らない）
