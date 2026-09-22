@@ -1,0 +1,15 @@
+# AGENTS.md
+
+## Git Workflow
+
+Push directly to `main`. This repo explicitly opts out of the global default (worktree + branch + PR) — user confirmed direct pushes to `main` are fine here.
+
+## Key References
+
+- Read [docs/architecture.md](docs/architecture.md) before working in this repo — it holds the always-on technical decisions (ADRs), layer boundaries, and invariants.
+- Read [PLAN.md](PLAN.md) for the work currently in progress, its success/failure conditions, and the next action.
+
+## Implementation workflow
+
+- Before implementing, read `docs/*.md` (requirements, specification, architecture, design) and follow the ADRs, invariants, and class structure they define.
+- If implementation reveals a divergence from the design, update `docs/design.md` first, then proceed.
