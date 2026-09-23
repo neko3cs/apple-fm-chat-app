@@ -1,0 +1,554 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 110;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		F324A9483063C5F60066F31C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F324A9303063C5F60066F31C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F324A9373063C5F60066F31C;
+			remoteInfo = AppleFMChat;
+		};
+		F324A9523063C5F60066F31C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F324A9303063C5F60066F31C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F324A9373063C5F60066F31C;
+			remoteInfo = AppleFMChat;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		F324A9383063C5F60066F31C /* AppleFMChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppleFMChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F324A9473063C5F60066F31C /* AppleFMChatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppleFMChatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F324A9513063C5F60066F31C /* AppleFMChatUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppleFMChatUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		F324A93A3063C5F60066F31C /* AppleFMChat */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = AppleFMChat;
+			sourceTree = "<group>";
+		};
+		F324A94A3063C5F60066F31C /* AppleFMChatTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = AppleFMChatTests;
+			sourceTree = "<group>";
+		};
+		F324A9543063C5F60066F31C /* AppleFMChatUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = AppleFMChatUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F324A9353063C5F60066F31C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+			);
+		};
+		F324A9443063C5F60066F31C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+			);
+		};
+		F324A94E3063C5F60066F31C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+			);
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F324A92F3063C5F60066F31C = {
+			isa = PBXGroup;
+			children = (
+				F324A93A3063C5F60066F31C /* AppleFMChat */,
+				F324A94A3063C5F60066F31C /* AppleFMChatTests */,
+				F324A9543063C5F60066F31C /* AppleFMChatUITests */,
+				F324A9393063C5F60066F31C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F324A9393063C5F60066F31C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F324A9383063C5F60066F31C /* AppleFMChat.app */,
+				F324A9473063C5F60066F31C /* AppleFMChatTests.xctest */,
+				F324A9513063C5F60066F31C /* AppleFMChatUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F324A9373063C5F60066F31C /* AppleFMChat */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F324A9593063C5F60066F31C /* Build configuration list for PBXNativeTarget "AppleFMChat" */;
+			buildPhases = (
+				F324A9343063C5F60066F31C /* Sources */,
+				F324A9353063C5F60066F31C /* Frameworks */,
+				F324A9363063C5F60066F31C /* Resources */,
+			);
+			buildRules = (
+			);
+			fileSystemSynchronizedGroups = (
+				F324A93A3063C5F60066F31C /* AppleFMChat */,
+			);
+			name = AppleFMChat;
+			productName = AppleFMChat;
+			productReference = F324A9383063C5F60066F31C /* AppleFMChat.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F324A9463063C5F60066F31C /* AppleFMChatTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F324A95C3063C5F60066F31C /* Build configuration list for PBXNativeTarget "AppleFMChatTests" */;
+			buildPhases = (
+				F324A9433063C5F60066F31C /* Sources */,
+				F324A9443063C5F60066F31C /* Frameworks */,
+				F324A9453063C5F60066F31C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F324A9493063C5F60066F31C /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				F324A94A3063C5F60066F31C /* AppleFMChatTests */,
+			);
+			name = AppleFMChatTests;
+			productName = AppleFMChatTests;
+			productReference = F324A9473063C5F60066F31C /* AppleFMChatTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		F324A9503063C5F60066F31C /* AppleFMChatUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F324A95F3063C5F60066F31C /* Build configuration list for PBXNativeTarget "AppleFMChatUITests" */;
+			buildPhases = (
+				F324A94D3063C5F60066F31C /* Sources */,
+				F324A94E3063C5F60066F31C /* Frameworks */,
+				F324A94F3063C5F60066F31C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F324A9533063C5F60066F31C /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				F324A9543063C5F60066F31C /* AppleFMChatUITests */,
+			);
+			name = AppleFMChatUITests;
+			productName = AppleFMChatUITests;
+			productReference = F324A9513063C5F60066F31C /* AppleFMChatUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F324A9303063C5F60066F31C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2700;
+				LastUpgradeCheck = 2700;
+				TargetAttributes = {
+					F324A9373063C5F60066F31C = {
+						CreatedOnToolsVersion = 27.0;
+					};
+					F324A9463063C5F60066F31C = {
+						CreatedOnToolsVersion = 27.0;
+						TestTargetID = F324A9373063C5F60066F31C;
+					};
+					F324A9503063C5F60066F31C = {
+						CreatedOnToolsVersion = 27.0;
+						TestTargetID = F324A9373063C5F60066F31C;
+					};
+				};
+			};
+			buildConfigurationList = F324A9333063C5F60066F31C /* Build configuration list for PBXProject "AppleFMChat" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F324A92F3063C5F60066F31C;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = F324A9393063C5F60066F31C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F324A9373063C5F60066F31C /* AppleFMChat */,
+				F324A9463063C5F60066F31C /* AppleFMChatTests */,
+				F324A9503063C5F60066F31C /* AppleFMChatUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F324A9363063C5F60066F31C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
+		};
+		F324A9453063C5F60066F31C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
+		};
+		F324A94F3063C5F60066F31C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F324A9343063C5F60066F31C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
+		};
+		F324A9433063C5F60066F31C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
+		};
+		F324A94D3063C5F60066F31C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F324A9493063C5F60066F31C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F324A9373063C5F60066F31C /* AppleFMChat */;
+			targetProxy = F324A9483063C5F60066F31C /* PBXContainerItemProxy */;
+		};
+		F324A9533063C5F60066F31C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F324A9373063C5F60066F31C /* AppleFMChat */;
+			targetProxy = F324A9523063C5F60066F31C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		F324A9573063C5F60066F31C /* Debug configuration for PBXProject "AppleFMChat" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = GPCFMDQ767;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		F324A9583063C5F60066F31C /* Release configuration for PBXProject "AppleFMChat" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = GPCFMDQ767;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F324A95A3063C5F60066F31C /* Debug configuration for PBXNativeTarget "AppleFMChat" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GPCFMDQ767;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = net.neko3cs.AppleFMChat;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F324A95B3063C5F60066F31C /* Release configuration for PBXNativeTarget "AppleFMChat" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GPCFMDQ767;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = net.neko3cs.AppleFMChat;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		F324A95D3063C5F60066F31C /* Debug configuration for PBXNativeTarget "AppleFMChatTests" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GPCFMDQ767;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = net.neko3cs.AppleFMChatTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AppleFMChat.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/AppleFMChat";
+			};
+			name = Debug;
+		};
+		F324A95E3063C5F60066F31C /* Release configuration for PBXNativeTarget "AppleFMChatTests" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GPCFMDQ767;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = net.neko3cs.AppleFMChatTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AppleFMChat.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/AppleFMChat";
+			};
+			name = Release;
+		};
+		F324A9603063C5F60066F31C /* Debug configuration for PBXNativeTarget "AppleFMChatUITests" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GPCFMDQ767;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = net.neko3cs.AppleFMChatUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = AppleFMChat;
+			};
+			name = Debug;
+		};
+		F324A9613063C5F60066F31C /* Release configuration for PBXNativeTarget "AppleFMChatUITests" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GPCFMDQ767;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = net.neko3cs.AppleFMChatUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = AppleFMChat;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F324A9333063C5F60066F31C /* Build configuration list for PBXProject "AppleFMChat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F324A9573063C5F60066F31C /* Debug configuration for PBXProject "AppleFMChat" */,
+				F324A9583063C5F60066F31C /* Release configuration for PBXProject "AppleFMChat" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		F324A9593063C5F60066F31C /* Build configuration list for PBXNativeTarget "AppleFMChat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F324A95A3063C5F60066F31C /* Debug configuration for PBXNativeTarget "AppleFMChat" */,
+				F324A95B3063C5F60066F31C /* Release configuration for PBXNativeTarget "AppleFMChat" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		F324A95C3063C5F60066F31C /* Build configuration list for PBXNativeTarget "AppleFMChatTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F324A95D3063C5F60066F31C /* Debug configuration for PBXNativeTarget "AppleFMChatTests" */,
+				F324A95E3063C5F60066F31C /* Release configuration for PBXNativeTarget "AppleFMChatTests" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		F324A95F3063C5F60066F31C /* Build configuration list for PBXNativeTarget "AppleFMChatUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F324A9603063C5F60066F31C /* Debug configuration for PBXNativeTarget "AppleFMChatUITests" */,
+				F324A9613063C5F60066F31C /* Release configuration for PBXNativeTarget "AppleFMChatUITests" */,
+			);
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F324A9303063C5F60066F31C /* Project object */;
+	validationLevel = 1;
+}
