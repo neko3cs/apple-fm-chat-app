@@ -17,3 +17,25 @@ Push directly to `main`. This repo explicitly opts out of the global default (wo
 
 - Before implementing, read `docs/*.md` (requirements, specification, architecture, design) and follow the ADRs, invariants, and class structure they define.
 - If implementation reveals a divergence from the design, update `docs/design.md` first, then proceed.
+- Verify Foundation Models / SwiftUI / SwiftData APIs against the installed SDK's `.swiftinterface` (`xcrun --sdk macosx --show-sdk-path`) instead of guessing — the user asked for this explicitly, and the APIs moved between macOS 26 and 27.
+
+## Commands
+
+```bash
+# Build (macOS target; the project lives under src/)
+xcodebuild -project src/AppleFMChat/AppleFMChat.xcodeproj -scheme AppleFMChat -destination 'platform=macOS' build
+```
+
+## Tacit Knowledge
+
+- Reproducing Foundation Models behavior in a quick script: compile with `swiftc -target arm64-apple-macos27.0`. A plain `swift script.swift` runs with an older deployment target, and the framework then returns legacy behavior (e.g. `GenerationError.exceededContextWindowSize` instead of `LanguageModelError.contextSizeExceeded`).
+- `SystemLanguageModel.contextSize` is 8192 on macOS 27, although Apple's docs still say 4096 — another reason never to hardcode it.
+- To trigger a context overflow when testing, send digits (≈1 token per char), e.g. ~2600 digits a few times. Repeating the same natural-language sentence tends to trip a guardrail (`LanguageModelError`, "May contain unsafe content") before the context limit, which shows the generic error instead.
+
+## Incidents
+
+| Date | What went wrong | Prevention |
+| :--- | :--- | :--- |
+| 2026-09-23 | The Xcode project was created from the New Project dialog's default iOS tab, not macOS. | After creating or regenerating the project, confirm `SDKROOT = macosx` in `project.pbxproj`. |
+| 2026-09-23 | A stray `*.xcodeproj` rule in `.gitignore` (SwiftPM section) silently excluded `project.pbxproj`. | When touching `.gitignore`, run `git check-ignore -v` on `project.pbxproj` and expect no match. |
+| 2026-09-23 | A context overflow was misdiagnosed as the legacy `GenerationError` from a `swift` script run, and a needless handler was added. | Reproduce framework behavior only with binaries targeting macOS 27 (see Tacit Knowledge). |
