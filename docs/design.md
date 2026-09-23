@@ -12,9 +12,12 @@ classDiagram
         <<@Observable>>
         +messages: [ChatMessage]
         +inputText: String
-        +availabilityState: ModelAvailabilityState
+        +availabilityState: ModelAvailabilityState?
         +isResponding: Bool
         +needsNewConversation: Bool
+        +errorMessage: String?
+        -generation: Int
+        +start()
         +send()
         +startNewConversation()
     }
@@ -22,12 +25,13 @@ classDiagram
         -session: LanguageModelSession
         -streamingTask: Task~Void, Never~?
         +checkAvailability() ModelAvailabilityState
-        +streamResponse(to: String) AsyncSequence
-        +resetSession(seedTranscriptData: Data?)
+        +streamResponse(to: String) AsyncThrowingStream~String, Error~
+        +resetSession(seedTranscriptData: Data?) SessionRestoreOutcome
         +currentTranscriptData() Data?
     }
     class ConversationStore {
-        -modelContext: ModelContext
+        -container: ModelContainer
+        +init(inMemory: Bool)
         +loadTranscriptData() Data?
         +save(transcriptData: Data)
         +clear()
@@ -59,10 +63,11 @@ classDiagram
     ConversationStore --> PersistedConversation : 読み書き
 ```
 
-- `ChatView`: SwiftUI の View。メッセージ一覧・入力欄・送信ボタン・新しい会話ボタン・利用不可バナーの表示のみを担当する。Foundation Models・SwiftData いずれの型も直接扱わない。
-- `ChatViewModel`: 画面の状態（メッセージ配列、入力文字列、応答中フラグ、利用可否、`needsNewConversation`）を保持し、`ChatView` から呼ばれる操作を `ChatService`（モデル呼び出し）と `ConversationStore`（永続化）に委譲する。両者を橋渡しする役割を持つ。`needsNewConversation` はコンテキスト上限到達時に `true` になり、「新しい会話」が実行されるまで送信操作を塞ぐ。
-- `ChatService`: `LanguageModelSession` / `SystemLanguageModel` / `Transcript` をラップし、フレームワーク固有の型・エラーをこの層に閉じ込める。`Transcript` のエンコード・デコードも ChatService の責務とし、外部には `Data` としてのみ公開する。進行中のストリーミングを `streamingTask` として保持し、`resetSession` は呼ばれるたびに（起動時の復元・「新しい会話」操作のいずれからでも）まず `streamingTask` を `cancel()` してから待ち合わせ、新しい `LanguageModelSession` を生成する。引き継ぐデータを省略すると空の会話から始める。
-- `ConversationStore`: SwiftData（`ModelContext`）をラップし、`PersistedConversation.transcriptData`（`Data`）をそのまま読み書きする。`Transcript` 型は一切知らない（Foundation Models フレームワークに依存しない）。View・ViewModel・ChatService のいずれからも SwiftData の型が見えないようにする。
+- `ChatView`: SwiftUI の View。メッセージ一覧・入力欄・送信ボタン・新しい会話ボタン・利用不可バナーの表示のみを担当する。Foundation Models・SwiftData いずれの型も直接扱わない。メッセージ一覧は `LazyVStack` ではなく `VStack` にし、メッセージ数・最新メッセージ本文の変化ごとに最新行へ明示的にスクロールする（`LazyVStack` + `defaultScrollAnchor(.bottom, for: .sizeChanges)` では、長文メッセージ追加時に最新行へ追従しないことを実機で確認したため）。
+- `ChatViewModel`: 画面の状態（メッセージ配列、入力文字列、応答中フラグ、利用可否、`needsNewConversation`、`errorMessage`）を保持し、`ChatView` から呼ばれる操作を `ChatService`（モデル呼び出し）と `ConversationStore`（永続化）に委譲する。両者を橋渡しする役割を持つ。`availabilityState` が `nil` の間は起動時の復元・確認中（`Restoring`/`Checking`）を表し、送信できない。`needsNewConversation` はコンテキスト上限到達時に `true` になり、「新しい会話」が実行されるまで送信操作を塞ぐ。バナーに出す文言も ViewModel が決め、View は表示するだけにする。
+- `ChatViewModel.generation`: 「新しい会話」を実行するたびに加算する世代番号。`send()` は開始時の世代を覚えておき、終了時に世代が変わっていれば（＝途中で新しい会話に切り替わっていれば）画面更新も永続化も行わない。キャンセル直前にストリームが正常終了した場合でも、新しい空のセッションの `Transcript` を保存してしまわないための防御。
+- `ChatService`: `LanguageModelSession` / `SystemLanguageModel` / `Transcript` をラップし、フレームワーク固有の型・エラーをこの層に閉じ込める。`Transcript` のエンコード・デコードも ChatService の責務とし、外部には `Data` としてのみ公開する。エラーも `LanguageModelError` を外に出さず、`ChatServiceError`（`contextSizeExceeded` / `generationFailed`）に変換して返す。コンテキスト超過は `LanguageModelError.contextSizeExceeded` を `contextSizeExceeded` に変換する（macOS 27 ターゲットのアプリではこちらが届くことを実機で確認済み。ガードレール判定などその他の `LanguageModelError` は `generationFailed`）。キャンセル時は `CancellationError` をそのまま返す。進行中のストリーミングを `streamingTask` として保持し、`resetSession` は呼ばれるたびに（起動時の復元・「新しい会話」操作のいずれからでも）まず `streamingTask` を `cancel()` してから待ち合わせ、新しい `LanguageModelSession` を生成する。結果は `SessionRestoreOutcome`（`restored([ChatMessage])` / `empty` / `decodeFailed`）で返す。引き継ぐデータを省略すると空の会話から始める。
+- `ConversationStore`: SwiftData の `ModelContainer` を自身で生成・保持し、`PersistedConversation.transcriptData`（`Data`）をそのまま読み書きする。`Transcript` 型は一切知らない（Foundation Models フレームワークに依存しない）。View・ViewModel・ChatService のいずれからも SwiftData の型が見えないようにする。`init(inMemory: true)` はプレビュー用。永続ストアを開けなかった場合はメモリ上のストアで起動を続ける（永続化なしで動作する）。
 - `PersistedConversation`: SwiftData の `@Model`。永続化する行は常に 1 件（`ConversationStore` が upsert する）。
 - `ChatMessage`: 画面表示用のメッセージデータ。SwiftData には保存しない（永続化されるのは `Transcript` のみ）。
 
@@ -133,7 +138,8 @@ sequenceDiagram
 ```
 
 - 永続化（`Store.save`）は、正常終了で応答が確定するたびに行う。ストリーミングの部分テキストごとには保存しない（書き込み頻度を抑えるため）。コンテキスト上限超過時は超過した発言への応答が得られていないため保存しない（超過前の状態のまま残る）。
-- コンテキスト上限超過時に前の文脈を新しい会話へ引き継ぐことはしない（下記「新しい会話」の項を参照）。超過を招いた発言をどう扱うか（消えるだけか、入力欄に戻すか）は TBD。
+- コンテキスト上限超過時に前の文脈を新しい会話へ引き継ぐことはしない（下記「新しい会話」の項を参照）。
+- 応答を得られなかった発言（コンテキスト上限超過・その他のエラーの両方）は、メッセージ一覧から外して入力欄に戻す。「新しい会話」は入力欄を消さないため、上限超過後もそのまま新しい会話で再送できる。
 - その他のエラー時は `Transcript` が更新されていないため保存しない。
 
 ### 新しい会話（通常時／応答生成中／コンテキスト上限到達時で共通）

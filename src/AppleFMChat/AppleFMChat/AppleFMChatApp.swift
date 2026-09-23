@@ -6,27 +6,15 @@
 //
 
 import SwiftUI
-import SwiftData
 
 @main
 struct AppleFMChatApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
+    // SwiftData の生成は ConversationStore に閉じ込める
+    @State private var viewModel = ChatViewModel(service: ChatService(), store: ConversationStore())
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ChatView(viewModel: viewModel)
         }
-        .modelContainer(sharedModelContainer)
     }
 }
