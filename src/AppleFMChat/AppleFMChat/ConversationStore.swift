@@ -36,7 +36,7 @@ final class ConversationStore {
         } else {
             context.insert(PersistedConversation(transcriptData: transcriptData))
         }
-        // 保存失敗時の画面表示は仕様 TBD。会話自体は続けられるため握りつぶす
+        // 保存失敗は画面に出さない仕様（会話自体は続けられる）
         try? context.save()
     }
 

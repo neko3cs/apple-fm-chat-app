@@ -27,7 +27,7 @@ macOS 上で Apple Foundation Models フレームワーク（端末内 LLM）を
 - 対応環境: macOS 27（Golden Gate）／ Xcode 27 ／ Apple Silicon 搭載 Mac
 - 前提条件: Apple Intelligence が有効化済みであること（未確認時は機能要件 4 に従い理由を表示する）
 - オンデバイス処理: Private Cloud Compute や他社モデルへの送信は行わない（Foundation Models の端末内モデルのみを使用する）
-- 応答性能・可用性の数値目標: TBD（現時点でユーザーから具体的な目標値の指定なし）
+- 応答性能・可用性の数値目標: TBD（現時点でユーザーから具体的な目標値の指定なし、#8）
 
 ## スコープ外
 
